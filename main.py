@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 
 app=Flask(__name__)
 
@@ -27,11 +27,11 @@ def saludo():
     return"<h1>Saludos desde Saludo</h1>"
 
 @app.route("/nombre/<string:nom>")
-def numero(nom):
+def nombre(nom):
     return "Hola: "+nom
 
-@app.route("/nombre/<int:n1>")
-def nombre(n1):
+@app.route("/numero/<int:n1>")
+def numero(n1):
     return "Numero: {}" .format(n1)
 
 @app.route("/user/<int:id>/<string:nom>")
@@ -43,13 +43,37 @@ def func2(n1,n2):
     return "La suma {} + {} = {}".format(n1,n2,n1+n2)   
 
 @app.route("/default")
-@app.route("/default/>string:d>")
+@app.route("/default/<string:d>")
 def func3(d="Dario"):
     return "El nombre de User es "+d
 
+@app.route("/calcular",methods=["GET","POST"])
+def calcular():
+    if request.method=="POST":
+        num1=request.form.get("n1")
+        num2=request.form.get("n2")
+        return"La multiplicacion de {} x {} = {}".format(num1,num2,str(int(num1)*int(num2)))
+    else:
+        return'''
+            <form action="/calcular" method="POST">
+                <label>N1:</label>
+                <input type="text" name="n1"><br>
+                <label>N2:</label>
+                <input type="text" name="n2"><br>
+                <input type="submit"/>
+            </form>
+'''
+@app.route("/OperasBas")
+def operas():
+    
+    return render_template("OperasBas.html")
+
+@app.route("/resultado",methods=["GET","POST"])
+def resul():
+    if request.method=="POST":
+        num1=request.form.get("n1")
+        num2=request.form.get("n2")
+        return"La multiplicacion de {} x {} = {}".format(num1,num2,str(int(num1)*int(num2)))
+   
 if __name__== "__main__":
     app.run(debug=True)
-
-
-
-
