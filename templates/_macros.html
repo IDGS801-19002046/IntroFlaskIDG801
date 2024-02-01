@@ -1,13 +1,13 @@
-{%macro datos(name,placeholder,type='text')%}
+{%macro datos(name, placeholder, type='text') %}
 
-<p><input name="{{name}}" type="{{type}}" placeholder="{{placeholder}}"></p>
+<p><input type="{{type}}" name="{{name}}" placeholder="{{placeholder}}"></p>
 
-{%endmacro%}
+{%endmacro %}
 
 
-{%macro camposNuevos(field) %}
+{% macro camposNuevos(field) %}
 
-<td> {{field.label}}</td>
+<td>{{field.label}}</td>
 <dd>{{field(**kwargs)| safe}}</dd>
 
-{%endmacro%}
+{%endmacro %}

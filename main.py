@@ -14,13 +14,22 @@ def alumnos():
         nombres=["mario","pedro","juan","dario"]
         return render_template("alumnos.html",titulo=titulo,nombres=nombres)
 
-@app.route("/alumnos2",methods=["GET", "POST"])
+@app.route("/alumnos2", methods=["GET", "POST"])
 def alumnos2():
-    alumno_clase =forms.UserForm(request.form)
-    if request.form=='POST':
-        pass 
-    
-    return render_template("alumnos2.html",form=alumno_clase)
+    nom = ''
+    apa = ''
+    ama = ''
+
+    alumno_clase = forms.UserForm(request.form)
+    if request.method == 'POST':
+        nom = alumno_clase.nombre.data 
+        apa = alumno_clase.apaterno.data 
+        ama = alumno_clase.amaterno.data 
+        edad = alumno_clase.edad.data 
+        print('Nombre: {}'.format(nom))
+        print('Apaterno: {}'.format(apa))
+        print('Amaterno: {}'.format(ama))
+    return render_template("alumnos2.html", form=alumno_clase, nom = nom, apa = apa, ama = ama)
 
 @app.route("/maestros")
 def maestros():
