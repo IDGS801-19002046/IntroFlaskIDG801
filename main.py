@@ -1,8 +1,6 @@
 from flask import Flask,render_template,request
 import forms
-
 from wtforms import validators
-
 
 app=Flask(__name__)
 
