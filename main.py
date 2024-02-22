@@ -1,9 +1,26 @@
 from flask import Flask,render_template,request
+from flask import flash
+from flask_wtf.csrf import CSRFProtect
+from flask import g
 import forms
 from wtforms import validators
 
 app=Flask(__name__)
+app.secret_key='Esta mi clave secreta'
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'),404
+
+@app.before_request
+def before_request():
+    g.nombre='Mario'
+    print("before 1")
+    
+@app.after_request
+def after_request(response):
+    print("after 3")
+    return response
 
 @app.route("/")
 def index():
@@ -17,6 +34,7 @@ def alumnos():
 
 @app.route("/alumnos2", methods=["GET", "POST"])
 def alumnos2():
+    print("alumno: {}".format(g.nombre))
     nom = ''
     apa = ''
     ama = ''
@@ -30,6 +48,9 @@ def alumnos2():
         print('Nombre: {}'.format(nom))
         print('Apaterno: {}'.format(apa))
         print('Amaterno: {}'.format(ama))
+        
+        mensaje='Bienvenido {}'.format(nom)
+        flash(mensaje)
     return render_template("alumnos2.html", form=alumno_clase, nom = nom, apa = apa, ama = ama)
 
 @app.route("/maestros")
